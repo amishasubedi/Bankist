@@ -82,6 +82,18 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
+// compute username for each user with their initials
+const createUsername = accs => {
+  //for (const i of accounts.owner) {
+  accs.forEach(acc => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split('')
+      .map(name => name[0])
+      .join('');
+  });
+};
+
 // convert into USD
 const eurToUsd = 1.1;
 const movementsUSD = movements.map(mov => mov * eurToUsd);
@@ -97,6 +109,12 @@ const movementDescriptions = movements.map((mov, i, arr) => {
     mov
   )}`;
 });
+
+// filter deposits
+const deposits = movements.filter(function (mov) {
+  return mov > 0;
+});
+console.log(deposits);
 
 const currencies = new Map([
   ['USD', 'United States dollar'],
