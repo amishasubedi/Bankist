@@ -82,6 +82,22 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
+// convert into USD
+const eurToUsd = 1.1;
+const movementsUSD = movements.map(mov => mov * eurToUsd);
+
+const movementsUSDfor = [];
+for (const mov of movements) {
+  movementsUSDfor.push(mov * eurToUsd); // manually created new array
+}
+
+// deposit and withdrawl message
+const movementDescriptions = movements.map((mov, i, arr) => {
+  `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+    mov
+  )}`;
+});
+
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
