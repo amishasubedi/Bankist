@@ -65,6 +65,23 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // LECTURES
 
+// display transaction history of user
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = ''; // set inner HTML to empty string
+  movements.forEach(function (mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawl';
+    // shaping each transaction by using html
+    const html = `
+    <div class="movements__row">
+    <div class="movements__type movements__type--deposit">${i + 1} ${type}</div>
+    <div class="movements__value">${mov}</div> 
+  </div>`;
+  });
+
+  containerMovements.insertAdjacentHTML('afterbegin', html); // add the layout in web page where afterbegin is the position
+};
+displayMovements(account1.movements);
+
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
