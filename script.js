@@ -110,11 +110,36 @@ const movementDescriptions = movements.map((mov, i, arr) => {
   )}`;
 });
 
-// filter deposits
+// filter withdrawl- display deposits
 const deposits = movements.filter(function (mov) {
   return mov > 0;
 });
 console.log(deposits);
+
+// filter deposit-display withdrawl
+const withdrawl = movements.filter(function (mov) {
+  return mov < 0;
+});
+
+// current balance of user
+const currentBalance = function (account) {
+  const balance = account.movements.reduce(function (
+    accumulator,
+    currentValue,
+    i,
+    arr
+  ) {
+    return accumulator + currentValue;
+  },
+  0);
+};
+
+const formattedBalance = new Intl.NumberFormat(account.locale, {
+  style: 'currency',
+  currency: account.currency,
+}).format(balance);
+
+labelBalance.textContent = `${formattedBalance}`;
 
 const currencies = new Map([
   ['USD', 'United States dollar'],
