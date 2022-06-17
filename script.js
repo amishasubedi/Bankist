@@ -141,6 +141,68 @@ const formattedBalance = new Intl.NumberFormat(account.locale, {
 
 labelBalance.textContent = `${formattedBalance}`;
 
+// total interest
+const interest = account.movements
+  .filter(function (movement) {
+    return movement > 0;
+  })
+  .map(function (deposit) {
+    return (deposit * account.interestRate) / 100;
+  })
+  .filter(function (int) {
+    return int >= 1;
+  })
+  .reduce(function (accumulator, int) {
+    return accumulator + int;
+  }, 0);
+
+const formattedInterest = new Intl.NumberFormat(account.locale, {
+  style: 'currency',
+  currency: account.currency,
+}).format(interest);
+labelSumInterest.textContent = `${formattedInterest}`;
+
+//update UI
+const updateUI = function (account) {
+  // display movements
+  displayMovements(account);
+
+  // display balance
+  calcDisplayBalance(account);
+
+  // display summary
+  calcDisplaySummary(account);
+};
+
+// set 5 minute Log Out Timer
+const startLogOutTimer = function () {
+  // initialize time to 5 minutes
+  let time = 300;
+
+  const timer = setInterval(function () {
+    // call the timer every second
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+
+    // print remaining time in dashboard
+    labelTimer.textContent = `${min}:${sec}`;
+
+    // decrease time by 1 second
+    time--;
+
+    // when 0 seconds, log out user
+    if (time === -1) {
+      clearInterval(timer);
+
+      // go back to login page
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    }
+  }, 1000);
+
+  return timer;
+};
+
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
