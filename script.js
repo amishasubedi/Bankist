@@ -262,6 +262,16 @@ btnLogin.addEventListener('click', function (event) {
   }
 });
 
+  // Transfer Money
+btnTransfer.addEventListener("click", function (event) {
+  event.preventDefault(); // reload same page
+
+  const amount = Math.floor(inputTransferAmount.value); // transfer amount
+
+  const recieverAccount = accounts.find(function (account) { // find receiver by comparing username
+    return account.username === inputTransferTo.value;
+  });
+
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
