@@ -203,6 +203,41 @@ const startLogOutTimer = function () {
   return timer;
 };
 
+let currentAccount, timer;
+
+btnLogin.addEventListener("click", function (event) {
+  // prevent form from submitting (page reload)
+  event.preventDefault();
+
+  currentAccount = accounts.find(function (account) {
+    return account.username === inputLoginUsername.value
+  });
+
+  if (currentAccount && currentAccount.pin === Number(inputLoginPin.value)) {
+    // display UI and welcome message
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(" ")[0]}`;
+    containerApp.style.opacity = 100;
+
+    // Display Current Date under 'Current Balance' heading
+    // const now = new Date();
+    // const day = `${now.getDate()}`.padStart(2, 0);
+    // const month = `${now.getMonth() + 1}`.padStart(2, 0); // because it is zero based
+    // const year = now.getFullYear();
+    // const hour = `${now.getHours()}`.padStart(2, 0);
+    // const min = `${now.getMinutes()}`.padStart(2, 0);
+    // labelDate.textContent = `${month}/${day}/${year}, ${hour}:${min}`;
+    const now = new Date();
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    }
+    // const locale = navigator.language;
+    labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale, options).format(now);
+
+
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
